@@ -240,4 +240,14 @@ defmodule PhxApp.ShoppingCart do
       )
     )
   end
+
+  def total_item_price(%CartItem{} = item) do
+    Decimal.mult(item.product.price, item.quantity)
+  end
+
+  def total_cart_price(%Cart{} = cart) do
+    Enum.reduce(cart.items, 0, fn item, acc ->
+      item |> total_item_price() |> Decimal.add(acc)
+    end)
+  end
 end
