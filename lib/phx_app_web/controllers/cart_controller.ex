@@ -9,10 +9,10 @@ defmodule PhxAppWeb.CartController do
 
   def update(conn, %{"cart" => cart_params}) do
     case ShoppingCart.update_cart(conn.assigns.cart, cart_params) do
-      {:ok, cart} ->
+      {:ok, _cart} ->
         redirect(conn, to: Routes.cart_path(conn, :show))
 
-      {:error, changeset} ->
+      {:error, _changeset} ->
         conn
         |> put_flash(:error, "There was an error updating your cart")
         |> redirect(to: Routes.cart_path(conn, :show))
