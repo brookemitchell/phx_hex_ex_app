@@ -12,7 +12,7 @@
 #   - https://pkgs.org/ - resource for finding needed packages
 #   - Ex: hexpm/elixir:1.14.0-dev-erlang-25.0.4-debian-bullseye-20210902-slim
 #
-ARG ELIXIR_VERSION=1.14.0-dev
+ARG ELIXIR_VERSION=1.14.0
 ARG OTP_VERSION=25.0.4
 ARG DEBIAN_VERSION=bullseye-20220801-slim
 
@@ -90,6 +90,10 @@ COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/phx_app ./
 USER nobody
 
 CMD ["/app/bin/server"]
+# Appended by flyctl
+ENV ECTO_IPV6 true
+ENV ERL_AFLAGS "-proto_dist inet6_tcp"
+
 # Appended by flyctl
 ENV ECTO_IPV6 true
 ENV ERL_AFLAGS "-proto_dist inet6_tcp"
