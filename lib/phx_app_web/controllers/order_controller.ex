@@ -34,13 +34,13 @@ defmodule PhxAppWeb.OrderController do
   end
 
   def edit(conn, %{"id" => id}) do
-    order = Orders.get_order!(id)
+    order = Orders.get_order!(conn.assigns.current_uuid, id)
     changeset = Orders.change_order(order)
     render(conn, "edit.html", order: order, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "order" => order_params}) do
-    order = Orders.get_order!(id)
+    order = Orders.get_order!(conn.assigns.current_uuid, id)
 
     case Orders.update_order(order, order_params) do
       {:ok, order} ->

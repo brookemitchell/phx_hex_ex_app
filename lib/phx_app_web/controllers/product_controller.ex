@@ -9,9 +9,24 @@ defmodule PhxAppWeb.ProductController do
     render(conn, "index.html", products: products)
   end
 
+  def edit(conn, %{"id" => id}) do
+    product = Catalog.get_product!(id)
+    changeset = Catalog.change_product(product)
+    render(conn, "edit.html", product: product, changeset: changeset)
+  end
+
   def new(conn, _params) do
     changeset = Catalog.change_product(%Product{})
     render(conn, "new.html", changeset: changeset)
+  end
+
+  def show(conn, %{"id" => id}) do
+    product =
+      id
+      |> Catalog.get_product!()
+      |> Catalog.inc_page_views()
+
+    render(conn, "show.html", product: product)
   end
 
   def create(conn, %{"product" => product_params}) do
@@ -24,21 +39,6 @@ defmodule PhxAppWeb.ProductController do
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
-  end
-
-  def show(conn, %{"id" => id}) do
-    product =
-      id
-      |> Catalog.get_product!()
-      |> Catalog.inc_page_views()
-
-    render(conn, "show.html", product: product)
-  end
-
-  def edit(conn, %{"id" => id}) do
-    product = Catalog.get_product!(id)
-    changeset = Catalog.change_product(product)
-    render(conn, "edit.html", product: product, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "product" => product_params}) do

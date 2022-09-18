@@ -23,5 +23,6 @@
 
 
 </ul>
+<span><%= link "Edit", to: Routes.order_path(@conn, :edit, @conn.assigns.order) %></span>
 
 <span><%= link "Back", to: Routes.cart_path(@conn, :show) %></span>

@@ -10,11 +10,6 @@ defmodule PhxApp.ShoppingCartTest do
 
     @invalid_attrs %{user_uuid: nil}
 
-    test "list_carts/0 returns all carts" do
-      cart = cart_fixture()
-      assert ShoppingCart.list_carts() == [cart]
-    end
-
     test "get_cart!/1 returns the cart with given id" do
       cart = cart_fixture()
       assert ShoppingCart.get_cart!(cart.id) == cart
@@ -90,14 +85,19 @@ defmodule PhxApp.ShoppingCartTest do
       cart_item = cart_item_fixture()
       update_attrs = %{price_when_carted: "456.7", quantity: 43}
 
-      assert {:ok, %CartItem{} = cart_item} = ShoppingCart.update_cart_item(cart_item, update_attrs)
+      assert {:ok, %CartItem{} = cart_item} =
+               ShoppingCart.update_cart_item(cart_item, update_attrs)
+
       assert cart_item.price_when_carted == Decimal.new("456.7")
       assert cart_item.quantity == 43
     end
 
     test "update_cart_item/2 with invalid data returns error changeset" do
       cart_item = cart_item_fixture()
-      assert {:error, %Ecto.Changeset{}} = ShoppingCart.update_cart_item(cart_item, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               ShoppingCart.update_cart_item(cart_item, @invalid_attrs)
+
       assert cart_item == ShoppingCart.get_cart_item!(cart_item.id)
     end
 

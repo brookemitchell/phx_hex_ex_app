@@ -49,7 +49,7 @@ defmodule PhxAppWeb.Router do
     get "/cart", CartController, :show
     put "/cart", CartController, :update
 
-    resources "/orders", OrderController, only: [:create, :show]
+    resources "/orders", OrderController
   end
 
   # Other scopes may use custom stacks.
